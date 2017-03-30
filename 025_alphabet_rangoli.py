@@ -18,15 +18,10 @@ def print_rangoli(size):
     plist = []
     for i in range(size):  # i as running 0, 1, 2, 3, ... (also number of character on each line)
         main_char = size - i
-        num, char_count = [], 2*i+1
+        char_count = 2*i+1
         mid = char_count // 2
-        for x in range(char_count):
-            # turn 0, 1, 2, 3, 4 -> 2, 1, 0, 1, 2
-            if x <= mid:  # left side
-                num.append(mid - x + main_char + base)
-            else:  # right side
-                num.append(main_char + x - mid + base)
-
+        # turn 0, 1, 2, 3, 4 -> 2, 1, 0, 1, 2
+        num = [mid - x + main_char + base if x <= mid else main_char + x - mid + base for x in range(char_count)]
         plist.append(('{:c}-'*i + '{:c}' + '-{:c}'*i).format(*num))
     for p in plist:
         print(p.center(line_size, '-'))  # print top half
