@@ -9,27 +9,24 @@ Print "Yes" if it is possible to stack the cubes. Otherwise, print "No". Do not 
 from collections import deque
 for _ in range(int(input())):
     C = int(input())
-    row = list(map(int, input().split()))
+    H = deque(list(map(int, input().split())))
     result = -1
-    for direction in range(2):  # Running check twice for each test case (popping left first, popping right first).
-        H = deque(row)
-        preceding_cube = H.pop() if direction == 0 else H.popleft()
-        for i in range(1, C):
+    preceding_cube = 0
+    for i in range(C):
+        try:
             left = H.popleft()
+        except IndexError:
+            left = 0
+        try:
             right = H.pop()
-            if cube > preceding_cube:
-                result = False
-                H.append(cube)  # Put it back
-            if result != 1:
-                cube = H.popleft()  # check left
-                if cube > preceding_cube:
-                    result = False
-                    H.appendleft(cube)  # put it back
-
-
-            if i == C - 1:
-                result = True  # Has reached the last cube of horizontal row
-            preceding_cube = cube
-        if result:
+        except IndexError:
+            right = 0
+        if i > 0 and (left > preceding_cube or right > preceding_cube):
+            result = False  # Both side must passes the check, else it will not be able to continue eventually
             break
+        lesser = min(('appendleft', left), ('append', right), key=lambda x: x[1])
+        getattr(H, lesser[0])(lesser[1])  # Use the greater one and push the lesser one back in
+        if i == C - 1:
+            result = True  # Has reached the last cube of horizontal row
+        preceding_cube = max(left, right)
     print('Yes' if result else 'No')
