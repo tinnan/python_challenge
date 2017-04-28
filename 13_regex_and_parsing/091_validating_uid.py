@@ -13,7 +13,15 @@ A valid UID must follow the rules below:
 """
 import re
 
-proper_char_len = re.compile(r'^[a-zA-Z\d]{10}$')
-repeat = re.compile(r'.*(.).*\1')
-least_2_upper = re.compile(r'.*[A-Z].*[A-Z].*')
-least_3_digit = re.compile(r'.*\d.*\d.*\d.*')
+proper_char_len = r'^[a-zA-Z\d]{10}$'
+repeat = r'(?!.*(.).*\1)'
+least_2_upper = r'.*[A-Z].*[A-Z].*'
+least_3_digit = r'.*\d.*\d.*\d.*'
+filters = proper_char_len, repeat, least_2_upper, least_3_digit
+
+for _ in range(int(input())):
+    uid = input()
+    if all(bool(re.match(f, uid)) for f in filters):
+        print('Valid')
+    else:
+        print('Invalid')
