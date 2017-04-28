@@ -14,3 +14,6 @@ I can be placed before V or X.
 X can be placed before L or C.
 C can be placed before D or M.
 """
+import re
+
+print(bool(re.match(r'^M{,3}(CM|D|CD){,1}C{,3}(XC|L|XL){,1}X{,3}(IX|V|IV){,1}I{,3}$', input())))
