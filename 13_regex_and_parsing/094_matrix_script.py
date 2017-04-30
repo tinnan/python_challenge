@@ -16,7 +16,8 @@ import re
 
 N, M = list(map(int, input().split()))
 matrix = [list(input()) for _ in range(N)]
-# matrix -> zip -> list -> map.. join tuples to array of text -> join array to a string
+# matrix -> zip (similar to transposing the array)
+# -> list the zip object -> map (join tuples to array of text) -> join array to a string
 text = ''.join(list(map(lambda x: ''.join(list(x)), list(zip(*matrix)))))
 # regex finding 1 or more symbols (plus spaces) sandwiched between alphanumerics and substitute them with single space
 print(re.sub(r'(?<=[a-zA-Z0-9])[!@#$%&\s]+(?=[a-zA-Z0-9])', lambda m: ' ', text))
